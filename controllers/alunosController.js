@@ -14,7 +14,6 @@ const selectSemSenha = {
   // senhaHash NÃO está aqui — nunca retornado pela API
 };
 
-// GET /alunos — lista todos os alunos
 export async function listarAlunos(req, res) {
   const alunos = await prisma.aluno.findMany({
     select: selectSemSenha, // retorna todos os campos EXCETO senhaHash
@@ -45,30 +44,15 @@ export async function buscarAluno(req, res) {
 // Dica: retorne status 201 com o aluno criado
 export async function criarAluno(req, res) {
   try {
-    // 1. Desestruturar os dados recebidos no corpo da requisição
-    const { nome, email, senhaHash, cidade, frase, planosFuturos } = req.body;
-
-    // 2. Criar o aluno no banco de dados utilizando o Prisma
     const novoAluno = await prisma.aluno.create({
-      data: {
-        nome,
-        email,
-        senhaHash,
-        cidade,
-        frase,
-        planosFuturos,
-      },
-      // Garante que a senha ou dados sensíveis não retornem na resposta
+      data: req.body,
       select: selectSemSenha, 
     });
-
-    // 3. Retornar o status 201 (Created) com o objeto do aluno criado
     return res.status(201).json(novoAluno);
 
   } catch (error) {
-    // Tratamento de erro básico para evitar que a aplicação trave
-    console.error("Erro ao criar aluno:", error);
-    return res.status(500).json({ error: "Erro interno ao criar o aluno." });
+    console.error(error);
+    return res.status(500).json(error);
   }
 }
 
