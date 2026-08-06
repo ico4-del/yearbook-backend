@@ -14,11 +14,15 @@ const selectSemSenha = {
   // senhaHash NÃO está aqui — nunca retornado pela API
 };
 
-export async function listarAlunos(req, res) {
-  const alunos = await prisma.aluno.findMany({
-    select: selectSemSenha, // retorna todos os campos EXCETO senhaHash
-  });
-  res.json(alunos); // responde com o array de alunos em JSON
+export async function listarAlunos(req, res, next) {  // adicione next aos parâmetros
+  try {
+    const alunos = await prisma.aluno.findMany({
+      select: selectSemSenha,
+    });
+    res.json(alunos);
+  } catch (erro) {
+    next(erro);  // passa o erro para o middleware global
+  }
 }
 
 // GET /alunos/:id — busca um aluno pelo ID

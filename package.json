@@ -7,7 +7,6 @@
     "start": "node index.js",
     "dev": "nodemon index.js"
   },
-
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ico4-del/yearbook-backend.git"
@@ -22,6 +21,7 @@
   "homepage": "https://github.com/ico4-del/yearbook-backend#readme",
   "dependencies": {
     "@prisma/client": "^6.19.3",
+    "dotenv": "^17.4.2",
     "express": "^5.2.1"
   },
   "devDependencies": {
